@@ -1,36 +1,33 @@
 # MPhil-Thesis-Vaka-Valsdottir-Matlab-code
 
-
 participant = input('Participant:');
 session = input('Session based on experimental procedure (might included multiple sessions):');
 session_lookingtimes = input('Session based on experimental design:');
 EEG_delay = input('Please enter the Video-EEG delay (s): ');
 
-%--- reading in eeg data
+%--- reading in eeg data ----
+
 eegfilename = strcat(num2str(participant),'_','session',num2str(session),'_EEG_matlab_babble','.mat');
 load(eegfilename);
-%load('001_session1_EEG_matlab_babble.mat')
 
-     %----testing whether data is missing----
+%----testing whether data is missing----
 
-    sample_times = data(:,34);
+sample_times = data(:,34);
 
-    data_droppage = diff(sample_times);
+data_droppage = diff(sample_times);
 
-    if any(data_droppage > 1)
+if any(data_droppage > 1)
     disp('EEG data is missing')
-    else
+else
     disp('All EEG data accounted for')
-    end
-    %------
+end
+
 
 %--- reading in looking times from coding
+
 videofilename = strcat('looking_babble_',num2str(participant),'_s',num2str(session_lookingtimes),'.txt');
 load(videofilename);
 [Video_Start_time,Video_End_time] = textread(videofilename,'%f %f');
-%load('eeg_babble_001_s1.txt');
-%[Video_Start_time,Video_End_time] = textread('eeg_babble_001_s1.txt','%f %f');
-
 
 %---- reading in the corrisponding audiofiles------
 
@@ -56,14 +53,12 @@ EEG_diff = End_time - Start_time;
 % Extracting the start times for familiarizations 
 % Get_Familiarization_Times provided by Stani Stanimira Georgieva 
 
-%fam_eeg = Get_Familiarization_Times(participant,session, EEG_delay);
+fam_eeg = Get_Familiarization_Times(participant,session, EEG_delay);
 
 %-------
 
 % Extracting the start and end times for each of the presentation videos
-% and eeg times
-%  sound {1=vidoes;2=eeg,number of familiarization}(i=look,1=start_time;2=end_time)
-
+% and eeg times --- sound {1=vidoes;2=eeg,number of familiarization}(i=look,1=start_time;2=end_time)
 
 % EEG       
 
@@ -85,10 +80,8 @@ EEG_diff = End_time - Start_time;
         end
             end
         end
-       
-        
+          
 % VIDEO
-     
         
         for v = 1:3
             for cond = 1:3
